@@ -7,8 +7,18 @@ using System.Threading.Tasks;
 
 namespace Assignment2.Components.Pages.Data
 {
+
+    ///
+    ///Represents information about a flight.
+    ///
+    /// This class enapsulates data related to a flight, including its code, airline, departure and destination location
+    ///weekday, departure time, available seats, and cost per seat. It provides methods for parsing flight codes, checking
+    ///if a flight is domestic, and generating string representations of flights.
+    ///
+    
     internal class Flight
     {
+        //Constant representing the size of each flight record
         public const int RECORD_SIZE = 72;
 
         private string code;
@@ -28,12 +38,15 @@ namespace Assignment2.Components.Pages.Data
 
         private double costPerSeat;
 
+        //Constructor initializing only the code
         //private bool isSelected;
 
         public Flight(string code)
         {
             this.code = code;
         }
+
+        //Constructor initializing all flight attributes
         public Flight(string code, string airline, string from, string to, string weekday, string time, int seats, double costPerSeat)
         {
             this.code = code;
@@ -46,7 +59,8 @@ namespace Assignment2.Components.Pages.Data
             this.costPerSeat = costPerSeat;
 
         }
-
+        
+        //Properties for accessing private fields
         public string Code { get => code; set => code = value; }
         public string Airline { get => airline; set => airline = value; }
         public string From { get => from; set => from = value; }
@@ -56,6 +70,7 @@ namespace Assignment2.Components.Pages.Data
         public int Seats { get => seats; set => seats = value; }
         public double CostPerSeat { get => costPerSeat; set => costPerSeat = value; }
 
+        //Override Equals method to compare two Flight objects
         public override bool Equals(object obj)
         {
             return obj is Flight flight &&
@@ -76,24 +91,30 @@ namespace Assignment2.Components.Pages.Data
                    Seats == flight.Seats &&
                    CostPerSeat == flight.CostPerSeat;
         }
-
+        
+        //Check if the flight is domestic
         public bool isDomestic()
         {
             return From[0] == 'Y' && To[0] == 'Y';
         }
-
+        
+        //Return a string representation of the flight
         public string toString()
         {
             return Code;
         }
 
+        //Parse flight code to extract the relative airline information
         private void ParseCode(string code) //throws InvalidFlightCodeException
         {
-
+            //Check if the flight code matches expected format
             if (!Regex.Match(code, "^[A-Z]{2}-\\d{4}$").Success)
             {
+                // Throwing exception for invalid flight code format
                 throw new Exception();//InvalidFlightCodeException
             }
+
+            //Map airline abbreviation to airline name
             string abbreviation = code.Substring(0, 2);
 
             switch (abbreviation)
@@ -121,6 +142,7 @@ namespace Assignment2.Components.Pages.Data
 
         public override int GetHashCode()
         {
+            //Currently not implememnted
             throw new NotImplementedException();
         }
     }
